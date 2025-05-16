@@ -309,8 +309,8 @@
     volumeUp.addEventListener('click',()=>{
       musicAudio.volume+=0.1;
       console.log(volumeUp.value);
-      if( musicAudio.volume > 100 ){
-        musicAudio.volume = 100;
+      if( musicAudio.volume > 1 ){
+        musicAudio.volume = 1;
       }
     });
     volumeDown.addEventListener('click',()=>{
