@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Player</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
   <style>
+    
     body, div, h2, p, ul, li{   margin:0;  padding:0;  box-sizing:border-box;   }
+    body{ font-family:"Noto Sans KR", sans-serif; }
     ul{  list-style:none;   }
     :root{
-      --pink:#ff74a4;      --violet:#9f6ea3;      --white:#fff;
+      --pink:#f7e4ea;      --violet:#9f6ea3;      --white:#fff;
       --lightshadow:rgba(0,0,0,0.15);      --lightblack:#515c6f;
       --pinkshadow:#ffcbdd;      --darkwhite:#cecaca;
-      --color-red:#ae1100;   --body-bg:#969aa5;        --play-bg:#dbdcf0;
-      --color-light:#fff;    --color-shadow:#babecc;   --text-color:#616e7f;
+      --color-red:#ae1100;   --body-bg:#969aa5;        --play-bg:#f0f0f0;
+      --color-light:#fff;    --color-shadow:#d8d8d8;   --text-color:#7e8388;
       --bar-bg:#aec9f8;      --text-size:30px;
     }
     body{
-      height:100vh;  background:linear-gradient(var(--pink) 0%, var(--violet) 100%);
+      height:100vh;  background:var(--pink);
       display:flex;  align-items:center;  justify-content:center;
     }
     .player_body{
@@ -29,7 +32,7 @@
                 -7px -7px 5px 0px var(--color-shadow) inset;
       user-select:none;  /* auto(기본):글자선택 , none:글자선택안됨, text, all(click으로 선택) */
     }
-    .top{   margin-bottom:25px;  }
+    .top{   margin-bottom:25px; }
     .top>h2{
       font-size:var(--text-size);  font-weight:700;  color:var(--text-color);  text-align:center;
       text-shadow:1px 1px 1px var(--color-light), -1px -1px 1px var(--lightblack);
@@ -38,7 +41,7 @@
       color:transparent;  -webkit-background-clip:text; -moz-background-clip:text;  background-clip:text;
       */
     }
-    .album{      height:260px;  border-radius:12px;  overflow:hidden;    }
+    .album{       height:260px; width:260px; border-radius:50%;  overflow:hidden;  margin:0 auto;  }
     .album>img{
       width:100%;  height:100%;  object-fit:cover;   object-position:center bottom;
     }
@@ -50,33 +53,45 @@
       width:100%; display:flex; position:relative;
     }
     #volumne_btn{
-      position:absolute; right:5px; top:40px; cursor:pointer;
+      position:absolute; right:5px; top:65px; cursor:pointer; color:#414141
     }
+    #volumne_btn.open{ color:var(--color-red); }
     #volumebar{
-      position:absolute; right:-52px; top:-40px; transform:rotate(-90deg); display:none;
+      position:absolute; right:-52px; top:-20px; transform:rotate(-90deg); display:none;
       
     }
     #volumebar.show{ display:block; }
 
-    .info{
-      text-align:center;  font-size:calc(var(--text-size) * 0.8);  margin:calc(var(--text-size) * 0.2);
+    /*
+    .volume .volumerange{
+      --webkit-appearance:none;
     }
-    .info>.artist{   font-size:calc(var(--text-size) * 0.6);             }
+    .volume .volumerange::-webkit-slider--runnable-tranck{
+
+    }
+    .volume .volumerange::-webkit-slider-thumb{
+      --webkit-appearance:none; html 기본 스타일링 제거
+    }
+    */
+    .info{
+      text-align:center;  height:100px; padding:20px 0; font-size:calc(var(--text-size) * 0.8);  margin:calc(var(--text-size) * 0.2); color:#303233;
+    }
+    .info>.artist{   font-size:calc(var(--text-size) * 0.6);      color:#5a5e61;       }
     .progress{
       height:8px;  border-radius:8px;  background:var(--play-bg);
       box-shadow:2px 2px 2px 0px var(--color-shadow) inset,
                 -2px -2px 2px 0px var(--color-light) inset;
     }
     .progress>.bar{
-      width:0%;  height:8px;  border-radius:8px;  background:var(--bar-bg);
+      width:0%;  height:8px;  border-radius:8px;  background:var(--color-red);
       box-shadow:2px 2px 3px 0px var(--color-shadow) inset;
     }
     .progress>.timebox{
       margin-top:8px;  font-size:calc(var(--text-size) * 0.5);
-      display:flex;  justify-content:space-between;
+      display:flex;  justify-content:space-between; 
     }
     .progress>.timebox>span{
-      color:#151515;  font-weight:600;  text-shadow:1px 1px 0px var(--color-light);
+      color:#151515;  font-weight:600;  text-shadow:1px 1px 0px var(--color-light); color:#303233;
     }
     .controls{
       margin-top:40px;  display:flex;  justify-content:space-between;  align-items:center;
@@ -94,8 +109,9 @@
     }
 
     .play_list{
-      position:absolute;  width:300px;  min-height:350px;  background:#090909;   display:none;
+      position:absolute;  width:300px;  min-height:300px;  background:var(--text-color);   display:none;
       left:30px;  top:120px;  color:var(--color-light);  padding:20px;  box-sizing:border-box;
+      border-radius:20px;
     }
     .play_list.active{    display:block;   }
     .play_list li{
@@ -105,12 +121,13 @@
     }
     .play_list li strong{  font-weight:normal;  }
     .play_list li span{    font-size:12px;      }
+    .play_list li.on{ color:var(--color-red); }
   </style>
 </head>
 <body>
   <div class="player_body">
     <div class="top">
-      <h2>NEUMORPHISM MUSIC PLAYER</h2>
+      <h2>MUSIC PLAYER</h2>
     </div>
     <div class="album">
       <img src="images/album1.jpg" alt="">
@@ -124,7 +141,7 @@
       <span class="volumeBar"></span> -->
       <div id="volume_ctrl">
         <span id="volumne_btn" class="material-icons">volume_up</span>
-        <div id="volumebar">
+        <div id="volumebar" class="hidden">
           <input type="range" min="0" max="100" value="50" step="1" class="volumerange">
         </div>
       </div>
@@ -141,7 +158,7 @@
     <div class="progress">
       <div class="bar"><audio src="" id="mainAudio"></audio></div>
       <div class="timebox">
-        <span class="current">0:00</span> / <span class="duration">0:00</span>
+        <span class="current">0:00</span>  <span class="duration">0:00</span>
       </div>
     </div>
     <div class="controls">
@@ -289,9 +306,32 @@
           fragment.appendChild(li);
         }
       */
-      musicList.forEach((music)=>{
+      musicList.forEach((music,idx)=>{
         let li = document.createElement('li');
+        li.setAttribute('data-index',idx);
         li.innerHTML = `<strong>${music.name}</strong><span>${music.artist}</span>`;
+        /*
+        if( list_index === idx){
+          const allList = listBox.querySelectorAll('ul li');
+          allList.forEach(listItem=>listItem.classList.remove('on'));
+          li.classList.add('on');
+          loadMusic(list_index);
+          musicPlay();
+        }
+        
+        if( list_index === li.getAttribute('data-index')){
+          li.classList.add('on');
+        }*/
+        li.addEventListener('click',(e)=>{
+          console.log(e.currentTarget.dataset.index); //getAttribute('data-index');
+          list_index = e.currentTarget.dataset.index;
+          const allList = listBox.querySelectorAll('ul li');
+          allList.forEach(listItem=>listItem.classList.remove('on'));
+          li.classList.add('on');
+          loadMusic(list_index);
+          musicPlay();
+        })
+        
         fragment.appendChild(li);
       });
       listBox.querySelector('ul').appendChild(fragment);
@@ -321,10 +361,29 @@
     });*/
 
 
-    volumeBtn.addEventListener('click',()=>{
+    volumeBtn.addEventListener('click',(e)=>{
+        e.target.classList.toggle('open');
         volumeBar.classList.toggle('show');
     });
+    /*
+    volumeBtn.addEventListener('click',(e)=>{
+      e.target.classList.toggle('open');
+      volumeCtrl.classList.toggle('hidden');
+    })
 
+    volumeRange.addEventListener('change',()=>{
+      let oriVol = musicAudio.volume;
+      musicAudio.volume = volumeRange.value/100;
+      let currVol = musicAudio.volume;
+      if(currVol===0){
+        volumeBtn.innerHtml = 'volume_off';
+      }else if{ oriVol <= currVol }{
+        volumeBtn.innerHTML='volume_up';
+      }else{
+        volume.Btn.innerHTML = 'volume_down';
+      }
+    })
+    */
     volumeCtrl.addEventListener('change',()=>{ 
       /*console.log(volumeCtrl.value);*/
       musicAudio.volume = volumeCtrl.value / 100;
